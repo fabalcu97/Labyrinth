@@ -12,7 +12,6 @@ import {
 export class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
   }
 
   createGame = () => this.props.navigation.navigate('Create');

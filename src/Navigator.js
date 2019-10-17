@@ -1,8 +1,11 @@
-import {createAppContainer} from 'react-navigation';
+import React from 'react';
+
+import {createAppContainer, NavigationActions} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 
 import {HomeScreen} from './Screens/Home';
 import {CreateScreen} from './Screens/Create';
+import {CreateSettingsModal} from './Screens/CreateSettingsModal';
 
 const MainNavigator = createStackNavigator(
   {
@@ -14,7 +17,9 @@ const MainNavigator = createStackNavigator(
     },
     Create: {
       screen: CreateScreen,
-      navigationOptions: {},
+    },
+    CreateSettingsModal: {
+      screen: CreateSettingsModal,
     },
   },
   {
