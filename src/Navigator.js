@@ -6,6 +6,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {HomeScreen} from './Screens/Home';
 import {CreateScreen} from './Screens/Create';
 import {CreateSettingsModal} from './Screens/CreateSettingsModal';
+import {Playground} from './Screens/Playground'
 
 const MainNavigator = createStackNavigator(
   {
@@ -21,6 +22,9 @@ const MainNavigator = createStackNavigator(
     CreateSettingsModal: {
       screen: CreateSettingsModal,
     },
+    Playground: {
+      screen : Playground,
+    }
   },
   {
     initialRouteName: 'Home',

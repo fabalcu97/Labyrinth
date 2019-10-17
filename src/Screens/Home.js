@@ -15,6 +15,7 @@ export class HomeScreen extends React.Component {
   }
 
   createGame = () => this.props.navigation.navigate('Create');
+  playground = () => this.props.navigation.navigate('Playground');
 
   render() {
     return (
@@ -22,6 +23,7 @@ export class HomeScreen extends React.Component {
         <Text style={styles.title}>NoIdea</Text>
         <View style={styles.buttons}>
           <Button text={'Create Labyrinth'} onPress={this.createGame} />
+          <Button text={'Playground'} onPress={this.playground} />
           <Button text={'Select Labyrinth'} onPress={() => {}} />
           <Button text={'Scoreboard'} onPress={() => {}} />
         </View>
