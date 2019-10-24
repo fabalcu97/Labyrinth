@@ -4,8 +4,10 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  Modal,
 } from 'react-native';
 import Slider from '@react-native-community/slider';
+import { Icon } from 'react-native-elements';
 
 import { Button } from "./Button";
 
@@ -21,4 +23,6 @@ export {
   Slider,
   height,
   width,
+  Modal,
+  Icon,
 };

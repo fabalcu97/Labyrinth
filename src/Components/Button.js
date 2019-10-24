@@ -1,11 +1,22 @@
 import React from 'react';
 
-import {StyleSheet, TouchableOpacity, Text} from './index';
+import {StyleSheet, TouchableOpacity, Text} from 'react-native';
+import {Icon} from 'react-native-elements';
 
 export class Button extends React.Component {
   render() {
-    return (
-      <TouchableOpacity style={styles.button} onPress={this.props.onPress}>
+    return this.props.icon ? (
+      <Icon
+        raised
+        name={this.props.icon}
+        type={this.props.iconType}
+        color="#f50"
+        onPress={this.props.onPress}
+      />
+    ) : (
+      <TouchableOpacity
+        style={{...styles.button, backgroundColor: this.props.color || '#EEE'}}
+        onPress={this.props.onPress}>
         <Text style={styles.text}>{this.props.text}</Text>
       </TouchableOpacity>
     );
@@ -25,7 +36,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    backgroundColor: '#EEE',
   },
   text: {
     flex: 1,

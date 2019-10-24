@@ -1,24 +1,27 @@
 import React from 'react';
 
 import {View, StyleSheet, Button} from '../Components';
+import {CreateSettingsModal} from './CreateSettingsModal';
 
 export class CreateScreen extends React.Component {
-  static navigationOptions = ({navigation}) => {
+  static navigationOptions = ({navigation, screenProps}) => {
+    console.log(navigation.state.params);
     return {
-      headerTitle: 'Create Your Map',
+      title: 'Create Your Map',
       headerRight: (
         <Button
-          text="*"
-          onPress={() => {
-            navigation.navigate('CreateSettingsModal');
-          }}></Button>
+          icon="cog"
+          iconType="font-awesome"
+          onPress={() => navigation.getParam('toggleModal', () => {})}></Button>
       ),
     };
   };
+
   constructor(props) {
     super(props);
     this.state = {
       gridSize: 7,
+      modalIsOpen: false,
       elements: [
         {
           position: [1, 1],
@@ -45,6 +48,18 @@ export class CreateScreen extends React.Component {
     this.grid = [];
   }
 
+  componentDidMount() {
+    this.props.navigation.setParams({
+      toggleModal: this.toggleModal,
+    });
+    this.setGrid();
+  }
+
+  toggleModal = () => {
+    console.log(this.state);
+    this.setState({modalIsOpen: !this.state.modalIsOpen});
+  };
+
   setGrid = () => {
     for (var i = 0; i < this.state.gridSize; i++) {
       this.grid.push([]);
@@ -55,9 +70,12 @@ export class CreateScreen extends React.Component {
   };
 
   render() {
-    this.setGrid();
     return (
       <View style={styles.grid}>
+        <CreateSettingsModal
+          closeModal={() => this.toggleModal()}
+          modalVisible={this.state.modalIsOpen}
+        />
         {this.grid.map((row, idx) => {
           return (
             <View key={idx} style={styles.gridRow}>

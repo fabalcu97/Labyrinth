@@ -1,13 +1,14 @@
 import React from 'react';
 
-import {createAppContainer, NavigationActions} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
+import { createAppContainer, NavigationActions } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 
-import {HomeScreen} from './Screens/Home';
-import {CreateScreen} from './Screens/Create';
-import {CreateSettingsModal} from './Screens/CreateSettingsModal';
+import { HomeScreen } from './Screens/Home';
+import { CreateScreen } from './Screens/Create';
+import { CreateSettingsModal } from './Screens/CreateSettingsModal';
+import { LoginScreen } from './Screens/Login';
 
-const MainNavigator = createStackNavigator(
+const SecondaryNavigator = createStackNavigator(
   {
     Home: {
       screen: HomeScreen,
@@ -22,8 +23,21 @@ const MainNavigator = createStackNavigator(
       screen: CreateSettingsModal,
     },
   },
+  {},
+);
+
+const MainNavigator = createStackNavigator(
   {
-    initialRouteName: 'Home',
+    Login: {
+      screen: LoginScreen,
+    },
+    Game: {
+      screen: SecondaryNavigator,
+    },
+  },
+  {
+    initialRouteName: 'Login',
+    headerMode: 'none',
   },
 );
 
