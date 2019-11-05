@@ -8,8 +8,10 @@
   },
   "dependencies": {
     "@react-native-community/slider": "^2.0.2",
+    "lodash": "^4.17.15",
     "react": "16.8.6",
     "react-native": "0.60.5",
+    "react-native-donkey-kong": "^0.5.4",
     "react-native-game-engine": "^0.12.3",
     "react-native-gesture-handler": "^1.4.1",
     "react-navigation": "^4.0.10",

@@ -1,12 +1,12 @@
 import React from 'react';
 
-import {createAppContainer, NavigationActions} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
+import { createAppContainer, NavigationActions } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 
-import {HomeScreen} from './Screens/Home';
-import {CreateScreen} from './Screens/Create';
-import {CreateSettingsModal} from './Screens/CreateSettingsModal';
-import {Playground} from './Screens/Playground'
+import { HomeScreen } from './Screens/Home';
+import { CreateScreen } from './Screens/Create';
+import { CreateSettingsModal } from './Screens/CreateSettingsModal';
+import { Playground } from './Screens/BallGame';
 
 const MainNavigator = createStackNavigator(
   {
@@ -23,8 +23,8 @@ const MainNavigator = createStackNavigator(
       screen: CreateSettingsModal,
     },
     Playground: {
-      screen : Playground,
-    }
+      screen: Playground,
+    },
   },
   {
     initialRouteName: 'Home',
