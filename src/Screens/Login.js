@@ -1,25 +1,36 @@
 import React from 'react';
 import { StackActions, NavigationActions } from 'react-navigation';
 
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  Button,
-} from '../Components';
+import auth from '@react-native-firebase/auth';
+import { firebase } from '@react-native-firebase/auth';
+
+import { View, Text, StyleSheet, Dimensions, Button } from '../Components';
 
 export class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  login = async () => {
+    let user = null;
+      try {
+        user = await auth().signInWithEmailAndPassword(
+          'test@noidea.com', 'noideatest');
+      } catch (e) {
+        // console.error(e.message);
+      }
+    // console.log(user);
+    this.successLogin();
+  }
+
+  auth = (user) => {
+    // console.log(user);
+  }
+
   successLogin = () => {
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Game' }),
-      ],
+      actions: [NavigationActions.navigate({ routeName: 'Game' })],
     });
     this.props.navigation.dispatch(resetAction);
   };
@@ -29,7 +40,8 @@ export class LoginScreen extends React.Component {
       <View style={styles.container}>
         <Text style={styles.title}>NoIdea</Text>
         <View style={styles.buttons}>
-          <Button text={'Entrar'} onPress={this.successLogin} />
+          <Button text={'AnonLogin'} onPress={this.login} />
+          {/* <Button text={'Entrar'} onPress={this.successLogin} /> */}
         </View>
       </View>
     );

@@ -23,7 +23,9 @@ const SecondaryNavigator = createStackNavigator(
       screen: CreateSettingsModal,
     },
   },
-  {},
+  {
+    initialRouteName: 'Create',
+  },
 );
 
 const MainNavigator = createStackNavigator(
@@ -36,7 +38,7 @@ const MainNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'Game',
     headerMode: 'none',
   },
 );

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "721010431039",
+    "firebase_url": "https://juego-graficas.firebaseio.com",
+    "project_id": "juego-graficas",
+    "storage_bucket": "juego-graficas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721010431039:android:27f76ec6c0d3ca9664948a",
+        "android_client_info": {
+          "package_name": "com.noidea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "721010431039-h0ltbbradkg1rr271f3mb9uccqvf1cur.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPVDPnc97n4WK4W6nb52YwdYpcaq92zUI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "721010431039-h0ltbbradkg1rr271f3mb9uccqvf1cur.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
