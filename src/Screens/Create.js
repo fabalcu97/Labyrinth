@@ -1,19 +1,16 @@
 import React from 'react';
 
-import { View, StyleSheet, Button } from '../Components';
+import { View, StyleSheet, Button, height, width, Cell, CellOptions, Text } from '../Components';
 import { CreateSettingsModal } from './CreateSettingsModal';
-import Draggable from '../Components/Draggable';
+
+const squareSize = 54;
 
 export class CreateScreen extends React.Component {
   static navigationOptions = ({ navigation, screenProps }) => {
-    console.log(navigation.state.params);
     return {
       title: 'Create Your Map',
       headerRight: (
-        <Button
-          icon="cog"
-          iconType="font-awesome"
-          onPress={() => navigation.getParam('toggleModal', () => {})}></Button>
+        <Button icon='cog' iconType='font-awesome' onPress={() => navigation.getParam('toggleModal', () => { })()} />
       ),
     };
   };
@@ -21,8 +18,9 @@ export class CreateScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      gridSize: 2,
+      gridSize: 5,
       modalIsOpen: false,
+      showOptions: true,
       elements: [
         {
           position: [1, 1],
@@ -45,30 +43,10 @@ export class CreateScreen extends React.Component {
           orientation: 'up',
         },
       ],
-      dropZoneValues: [],
-      mainLayout: null,
+      grid: [],
+      currentCell: [0, 0],
     };
-    this.grid = [];
   }
-
-  setDropZoneValues = $ev => {
-    const { layout } = $ev.nativeEvent;
-    console.log(this.state.mainLayout, layout);
-    this.setState({
-      dropZoneValues: this.state.dropZoneValues.concat({
-        ...layout,
-        x: layout.x + this.state.mainLayout.x,
-        y: layout.y + this.state.mainLayout.y,
-      }),
-    },);
-  };
-
-  setMainLayout = $ev => {
-    const { layout } = $ev.nativeEvent;
-    this.setState({
-      mainLayout: layout,
-    });
-  };
 
   componentDidMount() {
     this.props.navigation.setParams({
@@ -78,60 +56,98 @@ export class CreateScreen extends React.Component {
   }
 
   toggleModal = () => {
-    console.log(this.state);
-    this.setState({ modalIsOpen: !this.state.modalIsOpen });
+    this.setState({ modalIsOpen: true });
   };
 
+  toggleOptions = (i, j) => {
+    this.setState({
+      showOptions: true,
+      currentCell: [i, j],
+    });
+  }
+
   setGrid = () => {
+    let grid = [];
     for (var i = 0; i < this.state.gridSize; i++) {
-      this.grid.push([]);
+      grid.push([]);
       for (var j = 0; j < this.state.gridSize; j++) {
-        this.grid[i].push(
-          <View
-            key={`${i}_${j}`}
-            style={styles.dropZone}
-            onLayout={this.setDropZoneValues}
-          />,
-        );
+        grid[i].push(<Cell key={`${i}_${j}`} style={styles.cell} onPress={() => this.toggleOptions(i, j)} />);
       }
     }
+    this.setState({ grid });
+  };
+
+  saveModalData = data => {
+    this.setState({
+      modalIsOpen: false,
+      gridSize: data.gridSize,
+    }, () => {
+      delete this.state.grid;
+      this.setGrid();
+    });
+  }
+
+  closeModal = () => {
+    this.setState({
+      modalIsOpen: false,
+    });
   };
 
   render() {
     return (
-      <View style={styles.grid} onLayout={this.setMainLayout}>
-        {/* <CreateSettingsModal
-          closeModal={() => this.toggleModal()}
+      <View style={styles.grid}>
+        <CreateSettingsModal
+          saveModalData={this.saveModalData}
+          closeModal={this.closeModal}
+          onRequestClose={this.closeModal}
           modalVisible={this.state.modalIsOpen}
-        /> */}
-        {this.state.mainLayout && this.grid.map((row, idx) => {
-          return (
-            <View key={idx} style={styles.gridRow}>
-              {row}
+        />
+        <View style={styles.options}>
+          {(!this.state.showOptions) ? <Text>Press one cell!.</Text> : <CellOptions cellPosition={this.state.currentCell} />}
+        </View>
+        <View style={styles.cells}>
+          {this.state.grid.map((row, idx) => (
+            <View key={idx} style={styles.gridRow} >
+              {row.map(c => c)}
             </View>
-          );
-        })}
-        <Draggable dropZoneValues={this.state.dropZoneValues}></Draggable>
+          ))}
+        </View>
       </View>
     );
   }
 }
 
-const squareSize = 55;
 const styles = StyleSheet.create({
+  options: {
+    margin: '5%',
+    width: '100%',
+    height: '100%',
+    maxHeight: '25%',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'red',
+    borderWidth: 1,
+  },
   grid: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    height: height,
+    width: width,
   },
   gridRow: {
     flexDirection: 'row',
   },
-  dropZone: {
+  cells: {
+    flex: 1,
+    justifyContent: 'center',
+    borderColor: 'green',
+    borderWidth: 1,
+  },
+  cell: {
     height: squareSize,
     width: squareSize,
     backgroundColor: 'orange',
-    borderColor: 'red',
-    borderWidth: 1,
+    margin: 1,
   },
 });

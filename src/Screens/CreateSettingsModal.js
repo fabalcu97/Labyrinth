@@ -11,7 +11,7 @@ import {
 } from '../Components';
 
 export class CreateSettingsModal extends React.Component {
-  static navigationOptions = ({navigation}) => {
+  static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: 'Creation settings',
     };
@@ -20,7 +20,7 @@ export class CreateSettingsModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      gridSize: 8,
+      gridSize: 5,
     };
   }
 
@@ -30,17 +30,15 @@ export class CreateSettingsModal extends React.Component {
         animationType="slide"
         transparent={false}
         visible={this.props.modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-        }}>
-        <View style={{display: 'flex'}}>
+        onRequestClose={() => this.props.onRequestClose(this.state)}>
+        <View style={{ display: 'flex' }}>
           <View style={styles.input}>
             <Text style={styles.label}>Grid Size: {this.state.gridSize}</Text>
             <Slider
               style={styles.slider}
               step={1}
               value={this.state.gridSize}
-              onValueChange={value => this.setState({gridSize: value})}
+              onValueChange={value => this.setState({ gridSize: value })}
               minimumValue={5}
               maximumValue={11}
               minimumTrackTintColor="orange"
@@ -48,10 +46,10 @@ export class CreateSettingsModal extends React.Component {
             />
           </View>
           <View style={styles.buttons}>
-            <Button color="orange" text="Save" onPress={() => {}}></Button>
+            <Button color="orange" text="Save" onPress={ev => this.props.saveModalData(this.state)}></Button>
             <Button
               text="Cancel"
-              onPress={() => this.props.closeModal()}></Button>
+              onPress={() => this.props.closeModal(this.state)}></Button>
           </View>
         </View>
       </Modal>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, PanResponder, Animated } from 'react-native';
+import { Header } from 'react-navigation-stack';
 
 export default class Draggable extends Component {
   constructor(props) {
@@ -22,40 +23,26 @@ export default class Draggable extends Component {
           y: this.state.pan.y._value,
         });
         this.state.pan.setValue({ x: 0, y: 0 });
-        Animated.spring(this.state.scale, {
-          toValue: 1.1,
-          friction: 3,
-        }).start();
       },
-
       onPanResponderMove: Animated.event([
         null,
         { dx: this.state.pan.x, dy: this.state.pan.y },
       ]),
-
       onPanResponderRelease: (e, gesture) => {
         this.state.pan.flattenOffset();
         Animated.spring(this.state.scale, { toValue: 1, friction: 3 }).start();
-
         let dropZone = this.inDropZone(gesture);
-        console.log(dropZone);
-
         if (dropZone) {
-          console.log(
-            dropZone.y - this.layout.y,
-            this.state.pan.y._value,
-            dropZone.y,
-          );
           Animated.spring(this.state.pan, {
             toValue: {
-              x: (dropZone.x + dropZone.height) / 2,
-              y: (dropZone.y + dropZone.width) / 2,
+              x: dropZone.x + dropZone.height / 2 - CIRCLE_RADIUS,
+              y:
+                dropZone.y - Header.HEIGHT + dropZone.width / 2 - CIRCLE_RADIUS,
             },
           }).start();
         } else {
           Animated.spring(this.state.pan, {
             toValue: { x: 0, y: 0 },
-            delay: 0.3,
           }).start();
         }
       },
@@ -65,8 +52,6 @@ export default class Draggable extends Component {
   inDropZone(gesture) {
     var isDropZone = false;
     for (let dropZone of this.props.dropZoneValues) {
-      console.log('DZs =>', dropZone);
-      console.log('GSs =>', gesture);
       if (
         gesture.moveY > dropZone.y &&
         gesture.moveY < dropZone.y + dropZone.height &&
@@ -74,6 +59,7 @@ export default class Draggable extends Component {
         gesture.moveX < dropZone.x + dropZone.width
       ) {
         isDropZone = dropZone;
+        break;
       }
     }
     return isDropZone;
@@ -85,9 +71,7 @@ export default class Draggable extends Component {
 
   render() {
     return (
-      <View
-        style={{ width: '20%', alignItems: 'center' }}
-        onLayout={this.setDropZoneValues.bind(this)}>
+      <View onLayout={this.setDropZoneValues.bind(this)}>
         {this.renderDraggable()}
       </View>
     );
@@ -106,12 +90,11 @@ export default class Draggable extends Component {
   }
 }
 
-let CIRCLE_RADIUS = 30;
+let CIRCLE_RADIUS = 27;
 let styles = StyleSheet.create({
   circle: {
     backgroundColor: 'skyblue',
     width: CIRCLE_RADIUS * 2,
     height: CIRCLE_RADIUS * 2,
-    borderRadius: CIRCLE_RADIUS,
   },
 });
