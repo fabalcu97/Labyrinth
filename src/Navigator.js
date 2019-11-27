@@ -9,28 +9,23 @@ import { CreateSettingsModal } from './Screens/CreateSettingsModal';
 import { LoginScreen } from './Screens/Login';
 import { WebGLTest } from './Screens/WebGLTest';
 
-const SecondaryNavigator = createStackNavigator(
-  {
-    Home: {
-      screen: HomeScreen,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    Create: {
-      screen: CreateScreen,
-    },
-    CreateSettingsModal: {
-      screen: CreateSettingsModal,
-    },
-    WebGLTest: {
-      screen: WebGLTest,
+const SecondaryNavigator = createStackNavigator({
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: {
+      header: null,
     },
   },
-  {
-    initialRouteName: 'Create',
+  Create: {
+    screen: CreateScreen,
   },
-);
+  CreateSettingsModal: {
+    screen: CreateSettingsModal,
+  },
+  WebGLTest: {
+    screen: WebGLTest,
+  },
+});
 
 const MainNavigator = createStackNavigator(
   {
