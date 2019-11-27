@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {StyleSheet, TouchableOpacity, Text} from 'react-native';
-import {Icon} from 'react-native-elements';
+import { StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { Icon } from 'react-native-elements';
 
 export class Button extends React.Component {
   render() {
@@ -15,7 +15,10 @@ export class Button extends React.Component {
       />
     ) : (
       <TouchableOpacity
-        style={{...styles.button, backgroundColor: this.props.color || '#EEE'}}
+        style={{
+          ...styles.button,
+          backgroundColor: this.props.color || '#EEE',
+        }}
         onPress={this.props.onPress}>
         <Text style={styles.text}>{this.props.text}</Text>
       </TouchableOpacity>

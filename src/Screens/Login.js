@@ -13,19 +13,21 @@ export class LoginScreen extends React.Component {
 
   login = async () => {
     let user = null;
-      try {
-        user = await auth().signInWithEmailAndPassword(
-          'test@noidea.com', 'noideatest');
-      } catch (e) {
-        // console.error(e.message);
-      }
+    try {
+      user = await auth().signInWithEmailAndPassword(
+        'test@noidea.com',
+        'noideatest',
+      );
+    } catch (e) {
+      // console.error(e.message);
+    }
     // console.log(user);
     this.successLogin();
-  }
+  };
 
-  auth = (user) => {
+  auth = user => {
     // console.log(user);
-  }
+  };
 
   successLogin = () => {
     const resetAction = StackActions.reset({

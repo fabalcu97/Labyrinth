@@ -21,19 +21,19 @@ export class CellOptions extends React.Component {
 
   onPress = () => {
     this.props.onPress(i, j);
-  }
+  };
 
   render() {
     return (
       <View styles={styles.mainContainer}>
         <View style={styles.orientation}>
-          <Text styles={styles.label}>Orientation</Text>
+          {/* <Text styles={styles.label}>Orientation</Text>
           <View style={styles.row}>
             <Button icon='chevron-up' iconType='font-awesome' onPress={() => { }} />
             <Button icon='chevron-down' iconType='font-awesome' onPress={() => { }} />
             <Button icon='chevron-left' iconType='font-awesome' onPress={() => { }} />
             <Button icon='chevron-right' iconType='font-awesome' onPress={() => { }} />
-          </View>
+          </View> */}
         </View>
         <View style={styles.typeSelector}>
           <Text styles={styles.label}>Type</Text>
@@ -41,16 +41,25 @@ export class CellOptions extends React.Component {
             <Picker
               selectedValue={this.state.type}
               style={styles.typePicker}
-              onValueChange={(itemValue, itemIndex) => this.setState({ type: itemValue })}>
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState({ type: itemValue })
+              }>
               {Object.keys(this.state.types).map((k, idx) => {
                 let text = k.replace('_', ' ').toLowerCase();
-                return <Picker.Item key={idx} itemStyle={styles.pickerItem} label={text} value={this.state.types[k]} />
+                return (
+                  <Picker.Item
+                    key={idx}
+                    itemStyle={styles.pickerItem}
+                    label={text}
+                    value={this.state.types[k]}
+                  />
+                );
               })}
             </Picker>
           </View>
         </View>
-      </View >
-    )
+      </View>
+    );
   }
 }
 
@@ -82,4 +91,4 @@ const styles = StyleSheet.create({
     color: 'red',
     textTransform: 'capitalize',
   },
-})
+});

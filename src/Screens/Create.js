@@ -1,16 +1,28 @@
 import React from 'react';
 
-import { View, StyleSheet, Button, height, width, Cell, CellOptions, Text } from '../Components';
+import {
+  View,
+  StyleSheet,
+  Button,
+  height,
+  width,
+  Cell,
+  CellOptions,
+  Text,
+  ScrollView,
+} from '../Components';
 import { CreateSettingsModal } from './CreateSettingsModal';
-
-const squareSize = 54;
 
 export class CreateScreen extends React.Component {
   static navigationOptions = ({ navigation, screenProps }) => {
     return {
       title: 'Create Your Map',
       headerRight: (
-        <Button icon='cog' iconType='font-awesome' onPress={() => navigation.getParam('toggleModal', () => { })()} />
+        <Button
+          icon="cog"
+          iconType="font-awesome"
+          onPress={() => navigation.getParam('toggleModal', () => {})()}
+        />
       ),
     };
   };
@@ -20,7 +32,7 @@ export class CreateScreen extends React.Component {
     this.state = {
       gridSize: 5,
       modalIsOpen: false,
-      showOptions: true,
+      showOptions: false,
       elements: [
         {
           position: [1, 1],
@@ -43,8 +55,7 @@ export class CreateScreen extends React.Component {
           orientation: 'up',
         },
       ],
-      grid: [],
-      currentCell: [0, 0],
+      currentCell: [],
     };
   }
 
@@ -52,7 +63,6 @@ export class CreateScreen extends React.Component {
     this.props.navigation.setParams({
       toggleModal: this.toggleModal,
     });
-    this.setGrid();
   }
 
   toggleModal = () => {
@@ -64,34 +74,22 @@ export class CreateScreen extends React.Component {
       showOptions: true,
       currentCell: [i, j],
     });
-  }
-
-  setGrid = () => {
-    let grid = [];
-    for (var i = 0; i < this.state.gridSize; i++) {
-      grid.push([]);
-      for (var j = 0; j < this.state.gridSize; j++) {
-        grid[i].push(<Cell key={`${i}_${j}`} style={styles.cell} onPress={() => this.toggleOptions(i, j)} />);
-      }
-    }
-    this.setState({ grid });
   };
 
   saveModalData = data => {
     this.setState({
       modalIsOpen: false,
       gridSize: data.gridSize,
-    }, () => {
-      delete this.state.grid;
-      this.setGrid();
     });
-  }
+  };
 
   closeModal = () => {
     this.setState({
       modalIsOpen: false,
     });
   };
+
+  getArray = () => Array.apply(null, Array(this.state.gridSize));
 
   render() {
     return (
@@ -103,14 +101,28 @@ export class CreateScreen extends React.Component {
           modalVisible={this.state.modalIsOpen}
         />
         <View style={styles.options}>
-          {(!this.state.showOptions) ? <Text>Press one cell!.</Text> : <CellOptions cellPosition={this.state.currentCell} />}
+          {!this.state.showOptions ? (
+            <Text>Press one cell!.</Text>
+          ) : (
+            <CellOptions cellPosition={this.state.currentCell} />
+          )}
         </View>
         <View style={styles.cells}>
-          {this.state.grid.map((row, idx) => (
-            <View key={idx} style={styles.gridRow} >
-              {row.map(c => c)}
-            </View>
-          ))}
+          <ScrollView>
+            {this.getArray().map((r, i) => (
+              <View key={i} style={styles.gridRow}>
+                {this.getArray().map((c, j) => (
+                  <Cell
+                    key={`${i}_${j}`}
+                    style={styles.cell}
+                    position={[i, j]}
+                    currentCell={this.state.currentCell}
+                    onPress={() => this.toggleOptions(i, j)}
+                  />
+                ))}
+              </View>
+            ))}
+          </ScrollView>
         </View>
       </View>
     );
@@ -143,11 +155,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: 'green',
     borderWidth: 1,
-  },
-  cell: {
-    height: squareSize,
-    width: squareSize,
-    backgroundColor: 'orange',
-    margin: 1,
   },
 });
