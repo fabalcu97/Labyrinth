@@ -7,7 +7,7 @@ import { HomeScreen } from './Screens/Home';
 import { CreateScreen } from './Screens/Create';
 import { CreateSettingsModal } from './Screens/CreateSettingsModal';
 import { LoginScreen } from './Screens/Login';
-import {RedSquareWebGL} from './Screens/WebGLTest'
+import { WebGLTest } from './Screens/WebGLTest';
 
 const SecondaryNavigator = createStackNavigator(
   {
@@ -24,8 +24,8 @@ const SecondaryNavigator = createStackNavigator(
       screen: CreateSettingsModal,
     },
     WebGLTest: {
-      screen: RedSquareWebGL
-    }
+      screen: WebGLTest,
+    },
   },
   {},
 );

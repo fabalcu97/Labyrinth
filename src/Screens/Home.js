@@ -15,7 +15,7 @@ export class HomeScreen extends React.Component {
   }
 
   createGame = () => this.props.navigation.navigate('Create');
-  webGlTest = () => this.props.navigation.navigate('WebGlTest')
+  webGlTest = () => this.props.navigation.navigate('WebGLTest')
 
   render() {
     return (
