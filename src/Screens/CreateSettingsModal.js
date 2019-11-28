@@ -40,16 +40,21 @@ export class CreateSettingsModal extends React.Component {
               value={this.state.gridSize}
               onValueChange={value => this.setState({ gridSize: value })}
               minimumValue={5}
-              maximumValue={11}
+              maximumValue={20}
               minimumTrackTintColor="orange"
               maximumTrackTintColor="#000000"
             />
           </View>
           <View style={styles.buttons}>
-            <Button color="orange" text="Save" onPress={ev => this.props.saveModalData(this.state)}></Button>
+            <Button
+              color="orange"
+              text="Save"
+              onPress={ev => this.props.saveModalData(this.state)}
+            />
             <Button
               text="Cancel"
-              onPress={() => this.props.closeModal(this.state)}></Button>
+              onPress={() => this.props.closeModal(this.state)}
+            />
           </View>
         </View>
       </Modal>

@@ -16,6 +16,7 @@
     "expo-gl": "^7.0.0",
     "expo-gl-cpp": "^7.0.0",
     "expo-phaser": "0.0.1-alpha.0",
+    "lodash": "^4.17.15",
     "react": "16.8.6",
     "react-native": "0.60.5",
     "react-native-elements": "^1.2.6",

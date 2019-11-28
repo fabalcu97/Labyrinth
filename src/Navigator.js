@@ -8,24 +8,33 @@ import { CreateScreen } from './Screens/Create';
 import { CreateSettingsModal } from './Screens/CreateSettingsModal';
 import { LoginScreen } from './Screens/Login';
 import { Game } from './Screens/Game';
+import { LabyrinthListScreen } from './Screens/LabyrithList';
 
-const SecondaryNavigator = createStackNavigator({
-  Home: {
-    screen: HomeScreen,
-    navigationOptions: {
-      header: null,
+const SecondaryNavigator = createStackNavigator(
+  {
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Create: {
+      screen: CreateScreen,
+    },
+    CreateSettingsModal: {
+      screen: CreateSettingsModal,
+    },
+    Maps: {
+      screen: LabyrinthListScreen,
+    },
+    PlayGame: {
+      screen: Game,
     },
   },
-  Create: {
-    screen: CreateScreen,
+  {
+    initialRouteName: 'Maps',
   },
-  CreateSettingsModal: {
-    screen: CreateSettingsModal,
-  },
-  PlayGame: {
-    screen: Game,
-  },
-});
+);
 
 const MainNavigator = createStackNavigator(
   {

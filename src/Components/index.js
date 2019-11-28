@@ -2,18 +2,19 @@ import {
   View,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   StyleSheet,
   Dimensions,
   Modal,
+  ScrollView,
+  FlatList,
 } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { Icon } from 'react-native-elements';
 
-import { Button } from "./Button";
-import { Cell } from './Cell';
-import { CellOptions } from './CellOptions';
+import { Button } from './Button';
 
-const { height, width } = Dimensions.get("window");
+const { height, width } = Dimensions.get('window');
 
 export {
   View,
@@ -27,6 +28,7 @@ export {
   width,
   Modal,
   Icon,
-  Cell,
-  CellOptions,
+  ScrollView,
+  TouchableWithoutFeedback,
+  FlatList,
 };
