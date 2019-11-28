@@ -2,6 +2,8 @@ import { TileType, WINDOW_HEIGHT, WINDOW_WIDTH, TILE_SIZE } from '../constants';
 import { parseMapData } from '../utils/mapReader';
 import { mapGenerator } from '../utils/mapGenerator';
 import { Asset } from 'expo-asset';
+import { Accelerometer } from 'sensorama';
+import { NativeEventEmitter } from 'react-native';
 
 const BALL = 'ball';
 
@@ -9,6 +11,8 @@ export default class Game extends Phaser.State {
   init(assets, mapJSON) {
     this.assets = assets;
     this.mapJSON = mapJSON;
+    this.accX = 0;
+    this.accY = 0
     console.log(this.mapJSON)
   }
 
@@ -26,6 +30,18 @@ export default class Game extends Phaser.State {
     this.game.stage.backgroundColor = '#eeeeee';
     this.game.physics.startSystem(Phaser.Physics.P2JS);
     this.game.physics.p2.setImpactEvents(true);
+
+    // Sensorama config
+    Accelerometer.setUpdateInterval(500000);
+    const eventEmitter = new NativeEventEmitter(Accelerometer);
+    let delta = 16;
+    eventEmitter.addListener('Accelerometer', ({ x, y }) => {
+      this.accX = x,
+      this.accY = y
+    });
+    Accelerometer.startUpdates();
+
+
 
     var playerCollisionGroup = this.game.physics.p2.createCollisionGroup();
     var wallsCollisionGroup = this.game.physics.p2.createCollisionGroup();
@@ -75,15 +91,17 @@ export default class Game extends Phaser.State {
   }
 
   update(time, delta) {
-    this.player.body.setZeroVelocity();
-    if (this.cursors.left.isDown) {
-      this.player.body.velocity.x = -100;
-    } else if (this.cursors.right.isDown) {
-      this.player.body.velocity.x = 100;
-    } else if (this.cursors.down.isDown) {
-      this.player.body.velocity.y = 100;
-    } else if (this.cursors.up.isDown) {
-      this.player.body.velocity.y = -100;
-    }
+    // this.player.body.setZeroVelocity();
+    this.player.body.velocity.x = this.accX * 50
+    this.player.body.velocity.y = this.accY * 50
+    // if (this.cursors.left.isDown) {
+    //   this.player.body.velocity.x = -100;
+    // } else if (this.cursors.right.isDown) {
+    //   this.player.body.velocity.x = 100;
+    // } else if (this.cursors.down.isDown) {
+    //   this.player.body.velocity.y = 100;
+    // } else if (this.cursors.up.isDown) {
+    //   this.player.body.velocity.y = -100;
+    // }
   }
 }
