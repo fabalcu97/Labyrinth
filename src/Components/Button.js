@@ -6,13 +6,7 @@ import { Icon } from 'react-native-elements';
 export class Button extends React.Component {
   render() {
     return this.props.icon ? (
-      <Icon
-        raised
-        name={this.props.icon}
-        type={this.props.iconType}
-        color="#f50"
-        onPress={this.props.onPress}
-      />
+      <Icon raised name={this.props.icon} type={this.props.iconType} color='#f50' onPress={this.props.onPress} />
     ) : (
       <TouchableOpacity
         style={{
@@ -20,7 +14,7 @@ export class Button extends React.Component {
           backgroundColor: this.props.color || '#EEE',
         }}
         onPress={this.props.onPress}>
-        <Text style={styles.text}>{this.props.text}</Text>
+        <Text style={{ ...styles.text, color: this.props.textColor || 'black' }}>{this.props.text}</Text>
       </TouchableOpacity>
     );
   }

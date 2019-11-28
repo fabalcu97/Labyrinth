@@ -13,6 +13,11 @@ export class CellOptions extends React.Component {
     };
   }
 
+  changeType = (v, currentCell) => {
+    currentCell.type = v;
+    this.props.onChange(currentCell);
+  };
+
   render() {
     let { currentCell } = this.props;
     return (
@@ -30,23 +35,21 @@ export class CellOptions extends React.Component {
           <View style={styles.typeSelector}>
             <Text styles={styles.label}>Type</Text>
             <View style={styles.row}>
-              {/* <View style={styles.picker}> */}
               <Picker
                 selectedValue={currentCell.type}
                 style={styles.typePicker}
-                onValueChange={v => (currentCell.type = v)}>
+                onValueChange={v => this.changeType(v, currentCell)}>
                 {Object.keys(TileTypes).map((k, idx) => {
                   let text = k.replace('_', ' ').toLowerCase();
                   if (text == 'empty') text = 'path';
                   return <Picker.Item key={idx} itemStyle={styles.pickerItem} label={text} value={TileTypes[k]} />;
                 })}
               </Picker>
-              {/* </View> */}
             </View>
           </View>
-          <TouchableOpacity style={(styles.row, styles.button)} onPress={() => this.props.onChange(currentCell)}>
-            <Text style={styles.buttonText}>Guardar</Text>
-          </TouchableOpacity>
+          {/* <TouchableOpacity style={(styles.row, styles.button)} onPress={() => this.props.onChange(currentCell)}>
+            <Text style={styles.buttonText}>Save Tile</Text>
+          </TouchableOpacity> */}
         </View>
       )
     );
@@ -55,7 +58,7 @@ export class CellOptions extends React.Component {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: 'orange',
+    backgroundColor: '#f50',
     height: '30%',
   },
   buttonText: {
@@ -63,7 +66,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     width: '100%',
     height: '100%',
-    fontSize: 20,
+    fontSize: 16,
     color: 'white',
   },
   mainContainer: {
@@ -88,6 +91,8 @@ const styles = StyleSheet.create({
   },
   typePicker: {
     width: '65%',
+    borderBottomColor: '#f50',
+    borderBottomWidth: 2,
   },
   picker: {
     borderColor: 'gray',

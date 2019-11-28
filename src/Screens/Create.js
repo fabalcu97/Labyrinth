@@ -1,9 +1,13 @@
 import React from 'react';
+import { flatten } from 'lodash';
 
-import { View, StyleSheet, Button, height, width, Text, ScrollView } from '../Components';
+import firestore from '@react-native-firebase/firestore';
+
+import { View, StyleSheet, Button, height, width, Text, Modal, ScrollView } from '../Components';
 import { Cell } from '../Components/Cell';
 import { CellOptions } from '../Components/CellOptions';
 import { CreateSettingsModal } from './CreateSettingsModal';
+import { TextInput } from 'react-native';
 
 export class CreateScreen extends React.Component {
   static navigationOptions = ({ navigation, screenProps }) => {
@@ -22,6 +26,8 @@ export class CreateScreen extends React.Component {
       showOptions: false,
       currentCell: [],
       grid: [],
+      name: '',
+      isNameModalOpen: true,
     };
   }
 
@@ -35,6 +41,8 @@ export class CreateScreen extends React.Component {
   toggleModal = () => {
     this.setState({ modalIsOpen: true });
   };
+
+  toggleNameModal = () => this.setState({ isNameModalOpen: !this.state.isNameModalOpen });
 
   toggleOptions = (i, j) => {
     this.setState({
@@ -80,6 +88,27 @@ export class CreateScreen extends React.Component {
 
   getArray = size => Array.apply(null, Array(size));
 
+  saveMap = () => {
+    this.toggleNameModal();
+    let tt = {
+      name: this.state.name,
+      grid: flatten(this.state.grid),
+      userId: '',
+    };
+    console.log(tt);
+    firestore()
+      .collection('maps')
+      .add(tt)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
+  updateNameText = t => this.setState({ name: t });
+
   render() {
     return (
       <View style={styles.grid}>
@@ -89,9 +118,24 @@ export class CreateScreen extends React.Component {
           onRequestClose={this.closeModal}
           modalVisible={this.state.modalIsOpen}
         />
+        <Modal animationType='slide' visible={this.state.isNameModalOpen} onRequestClose={this.toggleNameModal}>
+          <View style={{ display: 'flex' }}>
+            <View style={styles.input}>
+              <TextInput
+                style={styles.textInput}
+                placeholder={'Map Name'}
+                onChangeText={this.updateNameText}
+                value={this.state.name}
+              />
+            </View>
+            <View style={styles.buttons}>
+              <Button color='orange' text='Ok' onPress={this.saveMap} />
+            </View>
+          </View>
+        </Modal>
         <View style={styles.options}>
           {!this.state.showOptions ? (
-            <Text>Press one cell!.</Text>
+            <Text>Press any tile!</Text>
           ) : (
             <CellOptions currentCell={this.state.currentCell} onChange={this.changeCellValues} />
           )}
@@ -119,6 +163,9 @@ export class CreateScreen extends React.Component {
             </ScrollView>
           </ScrollView>
         </View>
+        <View style={styles.saveButton}>
+          <Button text={'Save'} textColor={'white'} color={'#f50'} onPress={this.toggleNameModal} />
+        </View>
       </View>
     );
   }
@@ -134,6 +181,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomColor: 'gray',
     borderBottomWidth: 2,
+  },
+  saveButton: {
+    width: '100%',
   },
   grid: {
     flex: 1,
@@ -152,7 +202,7 @@ const styles = StyleSheet.create({
   scroll: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'orange',
+    backgroundColor: '#f50',
     borderWidth: 1,
   },
   scrollContainer: {
@@ -161,5 +211,14 @@ const styles = StyleSheet.create({
   },
   cells: {
     justifyContent: 'center',
+  },
+  input: {
+    padding: 5,
+    alignItems: 'center',
+  },
+  textInput: {
+    width: '70%',
+    borderBottomColor: '#f50',
+    borderBottomWidth: 2,
   },
 });
