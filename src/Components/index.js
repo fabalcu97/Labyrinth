@@ -7,6 +7,7 @@ import {
   Dimensions,
   Modal,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { Icon } from 'react-native-elements';
@@ -29,4 +30,5 @@ export {
   Icon,
   ScrollView,
   TouchableWithoutFeedback,
+  FlatList,
 };

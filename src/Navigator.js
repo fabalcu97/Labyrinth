@@ -8,6 +8,7 @@ import { CreateScreen } from './Screens/Create';
 import { CreateSettingsModal } from './Screens/CreateSettingsModal';
 import { LoginScreen } from './Screens/Login';
 import { WebGLTest } from './Screens/WebGLTest';
+import { LabyrinthListScreen } from './Screens/LabyrithList';
 
 const SecondaryNavigator = createStackNavigator(
   {
@@ -23,12 +24,15 @@ const SecondaryNavigator = createStackNavigator(
     CreateSettingsModal: {
       screen: CreateSettingsModal,
     },
+    Maps: {
+      screen: LabyrinthListScreen,
+    },
     WebGLTest: {
       screen: WebGLTest,
     },
   },
   {
-    initialRouteName: 'Create',
+    initialRouteName: 'Maps',
   },
 );
 

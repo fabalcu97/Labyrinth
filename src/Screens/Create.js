@@ -1,13 +1,12 @@
 import React from 'react';
 import { flatten } from 'lodash';
 
-import firestore from '@react-native-firebase/firestore';
-
 import { View, StyleSheet, Button, height, width, Text, Modal, ScrollView } from '../Components';
 import { Cell } from '../Components/Cell';
 import { CellOptions } from '../Components/CellOptions';
 import { CreateSettingsModal } from './CreateSettingsModal';
-import { TextInput } from 'react-native';
+import { TextInput, ActivityIndicator } from 'react-native';
+import { saveMap } from '../utils/firestore';
 
 export class CreateScreen extends React.Component {
   static navigationOptions = ({ navigation, screenProps }) => {
@@ -24,10 +23,11 @@ export class CreateScreen extends React.Component {
     this.state = {
       modalIsOpen: false,
       showOptions: false,
+      isNameModalOpen: false,
       currentCell: [],
       grid: [],
       name: '',
-      isNameModalOpen: true,
+      spinner: false,
     };
   }
 
@@ -79,7 +79,6 @@ export class CreateScreen extends React.Component {
 
   changeCellValues = cell => {
     let { grid } = this.state;
-    console.log(cell.position);
     grid[cell.position[0]][cell.position[1]] = cell;
     this.setState({
       grid: grid,
@@ -90,19 +89,20 @@ export class CreateScreen extends React.Component {
 
   saveMap = () => {
     this.toggleNameModal();
-    let tt = {
+    this.setState({ spinner: true });
+    let map = {
       name: this.state.name,
       grid: flatten(this.state.grid),
       userId: '',
     };
-    console.log(tt);
-    firestore()
-      .collection('maps')
-      .add(tt)
+    saveMap(map)
       .then(res => {
         console.log(res);
+        this.setState({ spinner: false }, () => this.props.navigation.navigate('Home'));
       })
       .catch(err => {
+        this.setState({ spinner: false });
+        alert('Error. Try again.');
         console.error(err);
       });
   };
@@ -110,7 +110,12 @@ export class CreateScreen extends React.Component {
   updateNameText = t => this.setState({ name: t });
 
   render() {
-    return (
+    return this.state.spinner ? (
+      <View style={styles.spinner}>
+        <ActivityIndicator size='large' color='#FF5500' />
+        <Text style={styles.spinnerText}>Creating Map...</Text>
+      </View>
+    ) : (
       <View style={styles.grid}>
         <CreateSettingsModal
           saveModalData={this.saveModalData}
@@ -172,6 +177,16 @@ export class CreateScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  spinner: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#FF550044',
+    height: '100%',
+    width: '100%',
+  },
+  spinnerText: {
+    textAlign: 'center',
+  },
   options: {
     margin: '5%',
     width: '100%',
