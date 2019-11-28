@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from '.';
-import { Picker } from 'react-native';
+import { View, Text, StyleSheet } from '.';
+import { Picker, TouchableOpacity } from 'react-native';
+
+import { TileTypes } from '../utils/constants';
 
 export class CellOptions extends React.Component {
   constructor(props) {
@@ -8,62 +10,62 @@ export class CellOptions extends React.Component {
 
     this.state = {
       orientation: 'up',
-      type: 1,
-      // TODO: Import types from Fredy's file
-      types: {
-        SQUARE_WALL: 1,
-        START: 2,
-        END: 3,
-        HOLE: 4,
-      },
     };
   }
 
-  onPress = () => {
-    this.props.onPress(i, j);
-  };
-
   render() {
+    let { currentCell } = this.props;
     return (
-      <View styles={styles.mainContainer}>
-        <View style={styles.orientation}>
-          {/* <Text styles={styles.label}>Orientation</Text>
-          <View style={styles.row}>
-            <Button icon='chevron-up' iconType='font-awesome' onPress={() => { }} />
-            <Button icon='chevron-down' iconType='font-awesome' onPress={() => { }} />
-            <Button icon='chevron-left' iconType='font-awesome' onPress={() => { }} />
-            <Button icon='chevron-right' iconType='font-awesome' onPress={() => { }} />
+      currentCell && (
+        <View styles={styles.mainContainer}>
+          {/* <View style={styles.orientation}>
+            <Text styles={styles.label}>Orientation</Text>
+            <View style={styles.row}>
+              <Button icon='chevron-up' iconType='font-awesome' onPress={() => {}} />
+              <Button icon='chevron-down' iconType='font-awesome' onPress={() => {}} />
+              <Button icon='chevron-left' iconType='font-awesome' onPress={() => {}} />
+              <Button icon='chevron-right' iconType='font-awesome' onPress={() => {}} />
+            </View>
           </View> */}
-        </View>
-        <View style={styles.typeSelector}>
-          <Text styles={styles.label}>Type</Text>
-          <View style={styles.row}>
-            <Picker
-              selectedValue={this.state.type}
-              style={styles.typePicker}
-              onValueChange={(itemValue, itemIndex) =>
-                this.setState({ type: itemValue })
-              }>
-              {Object.keys(this.state.types).map((k, idx) => {
-                let text = k.replace('_', ' ').toLowerCase();
-                return (
-                  <Picker.Item
-                    key={idx}
-                    itemStyle={styles.pickerItem}
-                    label={text}
-                    value={this.state.types[k]}
-                  />
-                );
-              })}
-            </Picker>
+          <View style={styles.typeSelector}>
+            <Text styles={styles.label}>Type</Text>
+            <View style={styles.row}>
+              {/* <View style={styles.picker}> */}
+              <Picker
+                selectedValue={currentCell.type}
+                style={styles.typePicker}
+                onValueChange={v => (currentCell.type = v)}>
+                {Object.keys(TileTypes).map((k, idx) => {
+                  let text = k.replace('_', ' ').toLowerCase();
+                  if (text == 'empty') text = 'path';
+                  return <Picker.Item key={idx} itemStyle={styles.pickerItem} label={text} value={TileTypes[k]} />;
+                })}
+              </Picker>
+              {/* </View> */}
+            </View>
           </View>
+          <TouchableOpacity style={(styles.row, styles.button)} onPress={() => this.props.onChange(currentCell)}>
+            <Text style={styles.buttonText}>Guardar</Text>
+          </TouchableOpacity>
         </View>
-      </View>
+      )
     );
   }
 }
 
 const styles = StyleSheet.create({
+  button: {
+    backgroundColor: 'orange',
+    height: '30%',
+  },
+  buttonText: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    width: '100%',
+    height: '100%',
+    fontSize: 20,
+    color: 'white',
+  },
   mainContainer: {
     flex: 1,
     padding: 10,
@@ -86,6 +88,19 @@ const styles = StyleSheet.create({
   },
   typePicker: {
     width: '65%',
+  },
+  picker: {
+    borderColor: 'gray',
+    borderWidth: 1,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
   pickerItem: {
     color: 'red',

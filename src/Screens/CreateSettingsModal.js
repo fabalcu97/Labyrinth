@@ -40,7 +40,7 @@ export class CreateSettingsModal extends React.Component {
               value={this.state.gridSize}
               onValueChange={value => this.setState({ gridSize: value })}
               minimumValue={5}
-              maximumValue={11}
+              maximumValue={20}
               minimumTrackTintColor="orange"
               maximumTrackTintColor="#000000"
             />
