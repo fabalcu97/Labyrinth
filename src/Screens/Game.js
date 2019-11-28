@@ -57,7 +57,7 @@ export class Game extends React.Component {
     return (
       <GLView
         style={{ flex: 1 }}
-        onContextCreate={context => startGame(context, this.assets, map) // TODO: replace exampleJSON with props.map
+        onContextCreate={context => startGame(context, this.assets, map.grid) // TODO: replace exampleJSON with props.map
         }
       />
     );

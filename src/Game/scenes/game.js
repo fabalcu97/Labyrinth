@@ -37,8 +37,8 @@ export default class Game extends Phaser.State {
 
     console.log(this.mapJSON)
     const mapData = parseMapData(this.mapJSON);
-    console.log(this.mapJSON)
-    
+    console.log(mapData)
+
     // Create walls
     mapData.tiles.forEach(params => {
       const tmp = this.walls.create(...params);
@@ -75,9 +75,6 @@ export default class Game extends Phaser.State {
   }
 
   update(time, delta) {
-    if (!this.player) {
-      return;
-    }
     this.player.body.setZeroVelocity();
     if (this.cursors.left.isDown) {
       this.player.body.velocity.x = -100;
