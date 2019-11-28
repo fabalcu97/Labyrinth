@@ -22,8 +22,8 @@ export class HomeScreen extends React.Component {
       <View style={styles.container}>
         <Text style={styles.title}>NoIdea</Text>
         <View style={styles.buttons}>
-          <Button text={'Create Labyrinth'} onPress={this.createGame} />
           <Button text={'Select a Map'} onPress={this.goToMaps} />
+          <Button text={'Create Labyrinth'} onPress={this.createGame} />
         </View>
       </View>
     );

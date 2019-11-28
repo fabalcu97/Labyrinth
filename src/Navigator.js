@@ -32,7 +32,7 @@ const SecondaryNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'Maps',
+    initialRouteName: 'Home',
   },
 );
 

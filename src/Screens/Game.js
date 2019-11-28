@@ -53,11 +53,11 @@ export class Game extends React.Component {
     if (this.state.loading) {
       return <View />;
     }
+    let map = this.props.navigation.getParam('map');
     return (
       <GLView
         style={{ flex: 1 }}
-        onContextCreate={
-          context => startGame(context, this.assets, exampleJSON) // TODO: replace exampleJSON with props.map
+        onContextCreate={context => startGame(context, this.assets, map) // TODO: replace exampleJSON with props.map
         }
       />
     );

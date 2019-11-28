@@ -33,7 +33,7 @@ export class LabyrinthListScreen extends React.Component {
       });
   }
 
-  selectedMap = item => this.props.navigation.navigate('', { map: item });
+  selectedMap = item => this.props.navigation.navigate('PlayGame', { map: item });
 
   renderItem = ({ item }) => {
     return (

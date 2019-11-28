@@ -9,6 +9,7 @@ export default class Game extends Phaser.State {
   init(assets, mapJSON) {
     this.assets = assets;
     this.mapJSON = mapJSON;
+    console.log(this.mapJSON)
   }
 
   preload() {
@@ -21,6 +22,7 @@ export default class Game extends Phaser.State {
   }
 
   create() {
+    console.log(this.mapJSON)
     this.game.stage.backgroundColor = '#eeeeee';
     this.game.physics.startSystem(Phaser.Physics.P2JS);
     this.game.physics.p2.setImpactEvents(true);
@@ -33,8 +35,10 @@ export default class Game extends Phaser.State {
     this.walls.enableBody = true;
     this.walls.physicsBodyType = Phaser.Physics.P2JS;
 
+    console.log(this.mapJSON)
     const mapData = parseMapData(this.mapJSON);
-
+    console.log(this.mapJSON)
+    
     // Create walls
     mapData.tiles.forEach(params => {
       const tmp = this.walls.create(...params);
@@ -71,6 +75,9 @@ export default class Game extends Phaser.State {
   }
 
   update(time, delta) {
+    if (!this.player) {
+      return;
+    }
     this.player.body.setZeroVelocity();
     if (this.cursors.left.isDown) {
       this.player.body.velocity.x = -100;
