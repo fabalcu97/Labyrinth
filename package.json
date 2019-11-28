@@ -12,6 +12,7 @@
     "@react-native-firebase/app": "^6.0.3",
     "@react-native-firebase/auth": "^6.0.3",
     "@react-native-firebase/firestore": "^6.0.3",
+    "expo-asset": "^7.0.0",
     "expo-gl": "^7.0.0",
     "expo-gl-cpp": "^7.0.0",
     "expo-phaser": "0.0.1-alpha.0",

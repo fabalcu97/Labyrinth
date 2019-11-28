@@ -7,7 +7,7 @@ import { HomeScreen } from './Screens/Home';
 import { CreateScreen } from './Screens/Create';
 import { CreateSettingsModal } from './Screens/CreateSettingsModal';
 import { LoginScreen } from './Screens/Login';
-import { WebGLTest } from './Screens/WebGLTest';
+import { Game } from './Screens/Game';
 
 const SecondaryNavigator = createStackNavigator({
   Home: {
@@ -22,8 +22,8 @@ const SecondaryNavigator = createStackNavigator({
   CreateSettingsModal: {
     screen: CreateSettingsModal,
   },
-  WebGLTest: {
-    screen: WebGLTest,
+  PlayGame: {
+    screen: Game,
   },
 });
 

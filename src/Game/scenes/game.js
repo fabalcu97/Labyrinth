@@ -1,52 +1,27 @@
-import basicTile from '../../assets/basic_tile.png';
-import ball from '../../assets/ball.png';
-import hole from '../../assets/hole.png';
 import { TileType, WINDOW_HEIGHT, WINDOW_WIDTH, TILE_SIZE } from '../constants';
 import { parseMapData } from '../utils/mapReader';
 import { mapGenerator } from '../utils/mapGenerator';
+import { Asset } from 'expo-asset';
 
 const BALL = 'ball';
 
-const CollissionCategory = {
-  BALL: 1,
-  WALL: 2,
-};
-
-const example = [
-  'wwwwwwwwww',
-  'w        w',
-  'w ww  ww w',
-  'w   hh   w',
-  'w ww  ww w',
-  'w   p    w',
-  'w        w',
-  'w        w',
-  'w        w',
-  'w        w',
-  'w        w',
-  'w        w',
-  'w        w',
-  'w        w',
-  'w        w',
-  'wwwwwwwwww',
-];
-
-
 export default class Game extends Phaser.State {
-  constructor() {
-    super({
-      key: 'game',
-    });
+  init(assets, mapJSON) {
+    this.assets = assets;
+    this.mapJSON = mapJSON;
   }
 
   preload() {
-    console.log('>>>', basicTile)
+    const ball = Asset.fromModule(this.assets['ball.png']).uri;
+    const basicTile = Asset.fromModule(this.assets['basic_tile.png']).uri;
+    const hole = Asset.fromModule(this.assets['hole.png']).uri;
     this.game.load.image(TileType.BASIC, basicTile);
     this.game.load.image(BALL, ball);
     this.game.load.image(TileType.HOLE, hole);
   }
 
   create() {
+    this.game.stage.backgroundColor = '#eeeeee';
     this.game.physics.startSystem(Phaser.Physics.P2JS);
     this.game.physics.p2.setImpactEvents(true);
 
@@ -57,18 +32,18 @@ export default class Game extends Phaser.State {
     this.walls = this.game.add.group();
     this.walls.enableBody = true;
     this.walls.physicsBodyType = Phaser.Physics.P2JS;
-    const map = mapGenerator(example);
-    const mapData = parseMapData(map);
+
+    const mapData = parseMapData(this.mapJSON);
 
     // Create walls
-    mapData.tiles.forEach((params) => {
+    mapData.tiles.forEach(params => {
       const tmp = this.walls.create(...params);
       tmp.body.static = true;
       tmp.body.setCollisionGroup(wallsCollisionGroup);
       tmp.body.collides(playerCollisionGroup);
     });
 
-    mapData.holes.forEach((params) => {
+    mapData.holes.forEach(params => {
       const tmp = this.game.add.sprite(...params);
 
       this.game.physics.p2.enable(tmp); // FIXME is this necessary?
@@ -89,7 +64,7 @@ export default class Game extends Phaser.State {
       -TILE_SIZE / 2,
       -TILE_SIZE / 2,
       mapData.bounds.right,
-      mapData.bounds.bottom
+      mapData.bounds.bottom,
     );
 
     this.cursors = this.game.input.keyboard.createCursorKeys();
